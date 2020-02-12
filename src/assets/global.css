@@ -1,0 +1,10 @@
+html,
+body {
+  font-size: 15px;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
