@@ -41,7 +41,7 @@
                 <el-button type="danger" icon="el-icon-delete" size="mini" @click="remove(scope.row.id)"></el-button>
               </el-tooltip>
               <el-tooltip content="分配角色" placement="top" :enterable="false">
-                <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+                <el-button type="warning" icon="el-icon-setting" size="mini" @click="give(scope.row)"></el-button>
               </el-tooltip>
             </template>
           </el-table-column>
@@ -91,6 +91,24 @@
           <el-button type="primary" @click="edit">确定</el-button>
         </span>
       </el-dialog>
+      <!-- 分配角色 -->
+      <el-dialog title="分配角色" :visible.sync="giveRole" width="50%" @close="setRole">
+        <div>
+          <p>当前用户：{{userInfo.username}}</p>
+          <p>当前角色：{{userInfo.role_name}}</p>
+          <p>
+            分配新角色：
+            <el-select placeholder="请选择角色" v-model="selectRole">
+              <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id"></el-option>
+            </el-select>
+          </p>
+        </div>
+        <!-- 底部 -->
+        <span slot="footer">
+          <el-button @click="giveRole = false">取消</el-button>
+          <el-button type="primary" @click="giveConfirm">确定</el-button>
+        </span>
+      </el-dialog>
     </h3>
   </div>
 </template>
@@ -118,6 +136,7 @@ export default {
         pagesize: 4
       },
       userlist: [],
+      userInfo: {},
       total: 0,
       // 对话框显示
       addUser: false,
@@ -142,7 +161,13 @@ export default {
         username: [{}],
         password: [{required: true, message: '密码为必填项！', trigger: 'blur'}],
         mobile: [{required: true, message: '手机为必填项！', trigger: 'blur'}, {validator: checkMobile, trigger: 'blur'}]
-      }
+      },
+      // 分配角色对话框
+      giveRole: false,
+      // 用户角色的列表
+      rolesList: [],
+      // 已选中的角色 id
+      selectRole: ''
     }
   },
   methods: {
@@ -160,9 +185,7 @@ export default {
     },
     // 页码变化
     currentChange(newpagenum) {
-      console.log(newpagenum)
       this.queryInfo.pagenum = newpagenum
-      console.log(this.queryInfo.pagenum)
       this.getUserList()
     },
     // 监听状态开关改变
@@ -224,6 +247,31 @@ export default {
       if (res.meta.status !== 200) return this.$msg.error('删除失败！')
       this.$msg.success('删除成功！')
       this.getUserList()
+    },
+    // 分配角色
+    async give(userInfo) {
+      this.userInfo = userInfo
+      console.log(userInfo)
+      const {data:res} = await this.$http.get('roles')
+      if (res.meta.status !== 200) return this.$msg.error('获取用户角色信息失败！')
+      console.log(res)
+      this.rolesList = res.data
+      this.giveRole = true
+    },
+    // 确认分配
+    async giveConfirm() {
+      if (!this.selectRole) return this.$msg.error('请选择要分配的角色')
+      const {data:res} = await this.$http.put(`users/${this.userInfo.id}/role`, {rid: this.selectRole})
+      console.log(res)
+      if (res.meta.status !== 200) return this.$msg.error('分配角色失败！')
+      this.$msg.success('更新用户角色成功！')
+      this.getUserList()
+      this.giveRole = false
+    },
+    // 关闭分配
+    setRole() {
+      this.selectRole = ''
+      this.userInfo = {}
     }
   },
   created() {
