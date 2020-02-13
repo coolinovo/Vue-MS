@@ -8,3 +8,16 @@ body,
 #app {
   height: 100%;
 }
+
+.el-breadcrumb {
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+
+.el-table {
+  margin-top: 20px;
+}
+
+.el-pagination {
+  margin-top: 20px;
+}

@@ -13,8 +13,8 @@
           <el-input type="password" prefix-icon="iconfont icon-user" v-model="loginForm.password"></el-input>
         </el-form-item>
         <el-form-item class="login-btn">
-          <el-button type="primary" @click="login">Set in</el-button>
-          <el-button type="info" @click="reset">Set up</el-button>
+          <el-button type="primary" @click="login">Sign in</el-button>
+          <el-button type="info" @click="reset">Sign up</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -61,7 +61,6 @@
           this.$msg.success(res.meta.msg)
           window.sessionStorage.setItem('token', res.data.token)
           // 编程式导航
-          console.log(this.$router)
           this.$router.push('/home')
         })
       }
