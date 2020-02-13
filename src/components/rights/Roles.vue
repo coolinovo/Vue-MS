@@ -150,8 +150,8 @@
         this.$refs.addFormRef.resetFields()
       },
       // 添加角色
-      addClick(id) {
-
+      addClick() {
+        this.addRole = true
       },
       // 确认添加
       add() {
