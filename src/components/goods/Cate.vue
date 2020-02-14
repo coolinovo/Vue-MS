@@ -30,6 +30,7 @@
       </tree-table>
       <!-- 分页 -->
       <el-pagination
+          background
           @size-change="sizeChange"
           @current-change="currentChange"
           :current-page="queryInfo.pagenum"

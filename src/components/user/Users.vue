@@ -47,7 +47,7 @@
           </el-table-column>
         </el-table>
         <!-- 分页 -->
-        <el-pagination @size-change="sizeChange" @current-change="currentChange" :current-page="queryInfo.pagenum" :page-sizes="[4, 8, 12, 16]" :page-size="queryInfo.pagesize" layout="total,sizes,prev,pager,next,jumper" :total="total"/>
+        <el-pagination background @size-change="sizeChange" @current-change="currentChange" :current-page="queryInfo.pagenum" :page-sizes="[4, 8, 12, 16]" :page-size="queryInfo.pagesize" layout="total,sizes,prev,pager,next,jumper" :total="total"/>
       </el-card>
 
       <!-- 添加用户 -->
