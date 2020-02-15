@@ -5,7 +5,7 @@
       <div class="logo-box">
         <img src="../assets/logo.png" alt="vue">
       </div>
-      <el-button type="primary" plain @click="exit">Sign out</el-button>
+      <el-button type="default" plain @click="exit">Sign out</el-button>
     </el-header>
 
     <el-container>
@@ -106,10 +106,11 @@
       padding-left: 0;
       color: rgba(0,0,0,.5);
       font-size: 20px;
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
 
       .logo-box {
-        width: 200px;
-        height: 100%;
+        /*width: 200px;*/
+        /*height: 100%;*/
         display: flex;
         justify-content: center;
         align-items: center;
@@ -122,6 +123,7 @@
     .el-aside {
       background-color: #333744;
       user-select: none;
+      transition: width .35s;
 
       .iconfont {
         margin-right: 10px;
@@ -141,6 +143,25 @@
     }
     .el-main {
       background-color: #eaedf1;
+    }
+  }
+  @media (min-width: 1200px) {
+    .el-header {
+      .logo-box {
+        width: 200px;
+        height: 100%;
+      }
+    }
+  }
+  @media (max-width: 480px) {
+    .el-header {
+      .logo-box {
+        width: 160px;
+        height: 80%;
+      }
+    }
+    .el-aside {
+      /*width: 48px !important;*/
     }
   }
 </style>

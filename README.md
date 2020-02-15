@@ -72,4 +72,77 @@ user  ------>  SPA   ------>   后端项目   ------>   数据库
 - mongodb
 - mongoose
 
+## 项目优化策略
+- 生成项目打包报告
+    - 命令行参数生成打包报告
+    ```
+    // 通过 vue-cli 的命令选项生成
+    //  report.html
+    vue-cli-service build --report
+    ```
+    - vue ui 界面生成直接查看
+- 第三方库启用 CDN
+    - 配置 webpack 的 externals 节点来配置加载外部的 CDN，在 externals 中的第三方依赖都不会被打包
+    ```
+    config.set('externals', {
+        vue: 'Vue',
+        'vue-router': 'VueRouter',
+        axios: 'axios',
+        lodash: '_',
+        echarts: 'echarts',
+        nprogress: 'NProgress',
+        'vue-quill-editor': 'VueQuillEditor'
+    })
+    ```
+- Element-UI 组件按需加载
+- 路由懒加载
+- 首页内容定制
 
+### 加载进度条
+```
+npm i --save nprogress
+
+import NProgress from 'nprogress'   // js
+import 'nprogress/nprogress.css'    // css
+```
+- axios 请求拦截器中开启进度条
+- axios 响应拦截器中关闭进度条
+
+### 移除开发中的 console.log
+```
+npm i --save-dev babel-plugin-transform-remove-console
+```
+配置 .babelrc
+```
+// 项目发布阶段需要用到的 babel 插件
+const proPlugins = []
+if (process.env.NODE_ENV === 'production') {
+  proPlugins.push("transform-remove-console")
+}
+
+"plugins": [
+    ...proPlugins
+  ]
+```
+
+### 为开发模式和发布模式指定不同打包入口
+- 开发模式：src/main-dev.js
+- 发布模式：src/main-prod.js
+- configureWebpack 和 chainWebpack
+- vue.config.js 导出的配置对象中，新增这两个节点，来定义 webpack 的打包配置
+他们的作用相同，区别在于修改 webpack 配置的方式不同
+    - chainWebpack 通过链式编程来修改
+        ```
+        # vue.config.js
+        module.exports = {
+            chainWebpack: config => {
+                config.when(process.env.NODE_ENV === 'production', config => {
+                    config.entry('app').clear().add('./src/main-prod.js')
+                })
+                config.when(process.env.NODE_ENV === 'development', config => {
+                    config.entry('app').clear().add('./src/main-dev.js')
+                })
+            }
+        }
+        ```
+    - configureWebpack 操作对象来修改

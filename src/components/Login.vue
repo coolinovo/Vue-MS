@@ -75,16 +75,15 @@
 
   .login-cover {
     width: 100%;
+    height: 100vh;
     position: relative;
   }
 
   .login-box {
-    width: 450px;
-    height: 300px;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -100%);
+    /*transform: translate(-50%, -100%);*/
     background-color: #ffffff;
     border-radius: 6px;
     box-shadow: 0 10px 35px rgba(0,0,0,.2);
@@ -110,7 +109,7 @@
 
     .login-form {
       position: absolute;
-      bottom: 20px;
+      /*bottom: 20px;*/
       width: 100%;
       padding: 0 60px;
       box-sizing: border-box;
@@ -124,6 +123,28 @@
         }
       }
     }
+  }
+}
+// 电脑
+@media (min-width: 500px) {
+  .login-box {
+    width: 450px;
+    height: 300px;
+    transform: translate(-50%, -100%);
+  }
+  .login-form {
+    bottom: 20px;
+  }
+}
+// 手机
+@media (max-width: 480px) {
+  .login-box {
+    width: 96%;
+    height: 267px;
+    transform: translate(-50%, -80%);
+  }
+  .login-form {
+    bottom: 8px;
   }
 }
 </style>

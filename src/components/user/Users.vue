@@ -282,4 +282,7 @@ export default {
 
 <style lang='less' scoped>
 
+  @media (max-width: 480px) {
+
+  }
 </style>
